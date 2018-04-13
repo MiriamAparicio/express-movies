@@ -1,0 +1,13 @@
+{{#each movies}}
+<div class="container movies-list">
+  <h2><a href="/movies/{{this._id}}">{{this.name}}</a> <span>({{this.year}})</span></h2>
+</div>
+{{/each}}
+<div class="container create-button">
+  <a href="/movie/create"><button>Create new movie</button></a>
+</div>
+<div class="container create-button">
+  <a href="/director/add">
+    <button>Add director</button>
+  </a>
+</div>
