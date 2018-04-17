@@ -5,10 +5,41 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
+const flash = require('connect-flash');
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const indexRouter = require('./routes/index');
-
+const authRouter = require('./routes/auth');
 const app = express();
+
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost/mongoose-movies-example', {
+  keepAlive: true,
+  reconnectTries: Number.MAX_VALUE
+});
+
+app.use(session({
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  }),
+  secret: 'some-string',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}));
+
+// note1: currentUser needs to match whatever you use in login/signup/logout routes
+// note2: if using passport, req.user instead
+app.use(function (req, res, next) {
+  app.locals.user = req.session.currentUser;
+  next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +50,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 
 // -- 404 and error handler
 

@@ -7,8 +7,6 @@ const router = express.Router();
 const Movie = require('../models/movie');
 const Director = require('../models/director');
 
-mongoose.connect('mongodb://localhost/mongoose-movies-example');
-
 /* GET movies list */
 router.get('/', (req, res, next) => {
   Movie.find({})
@@ -47,6 +45,10 @@ router.get('/movies/:movieId', (req, res, next) => {
 
 /** GET movie create */
 router.get('/movie/create', (req, res, next) => {
+  // if there's no user logged not possible to render the page
+  if (!req.session.user) {
+    return req.redirect('/auth/login');
+  }
   res.render('movie-create');
 });
 

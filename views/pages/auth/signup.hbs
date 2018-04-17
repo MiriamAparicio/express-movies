@@ -1,0 +1,25 @@
+<form id="form" action="/auth/signup" method="POST">
+
+  <div class="field">
+    <label>Username</label>
+    <input type="text" name="username" placeholder="AnakinSkywalker" />
+  </div>
+
+  <div class="field">
+    <label>Password</label>
+    <input type="password" name="password" placeholder="DeathStar" />
+  </div>
+
+  <div class="field submit">
+    <button type="submit">Signup</button>
+  </div>
+
+  {{#if errorMessage.length}}
+  <ul class="validation">
+    {{#each errorMessage}}
+    <li class="error-message">{{ this }}</li>
+    {{/each}}
+  </ul>
+  {{/if}}
+
+</form>
