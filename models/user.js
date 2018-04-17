@@ -12,7 +12,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   }
-
+// check timestamps!!
 }, {
   timestamps: {
     createdAt: 'created_at',

@@ -36,7 +36,6 @@ router.post('/login', (req, res, next) => {
         res.redirect('/auth/login');
       } else if (!bcrypt.compareSync(password, result.password)) {
         req.flash('login-error', 'password incorrect');
-        req.flash('login-error', 'just for science sake');
         res.redirect('/auth/login');
       } else {
         req.session.user = result;
@@ -48,7 +47,7 @@ router.post('/login', (req, res, next) => {
 
 router.get('/signup', (req, res, next) => {
   if (req.session.user) {
-    res.redirect('/movies');
+    res.redirect('/');
   } else {
     const data = { errorMessage: req.flash('signup-error') };
     res.render('pages/auth/signup', data);
@@ -92,9 +91,9 @@ router.post('/signup', (req, res, next) => {
 });
 
 // remove the user from the session
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   delete req.session.user;
-  res.redirect('/movies');
+  res.redirect('/');
 });
 
 module.exports = router;

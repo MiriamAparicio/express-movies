@@ -15,6 +15,27 @@
       </nav>
       <h1>Movies</h1>
     </div>
+    <div class="container auth-buttons">
+      {{#unless user}}
+      <div>
+        <a href="/auth/login">
+          <button>Login</button>
+        </a>
+      </div>
+      <div>
+        <a href="/auth/signup">
+          <button>Signup</button>
+        </a>
+      </div>
+      {{/unless}}
+      {{#if user}}
+      <div>
+        <a href="/auth/logout">
+          <button>Logout</button>
+        </a>
+      </div>
+      {{/if}}
+    </div>
   </header>
   <div class=container>
 
